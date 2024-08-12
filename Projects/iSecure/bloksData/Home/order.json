@@ -1,0 +1,18 @@
+[
+    {
+        "id": 0,
+        "blockName": "Navbar"
+    },
+    {
+        "id": 1,
+        "blockName": "Body"
+    },
+    {
+        "id": 2,
+        "blockName": "services"
+    },
+    {
+        "id": 3,
+        "blockName": "Footer"
+    }
+]

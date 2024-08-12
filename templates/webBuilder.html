@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gemini - Website Builder</title>
+  <!-- Global css -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+    :root {
+      --foreground-rgb: 0, 0, 0;
+      --background-start-rgb: 214, 219, 220;
+      --background-end-rgb: 255, 255, 255;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+      }
+    }
+
+    .ui {
+      display: none;
+    }
+
+    body {
+      color: rgb(var(--foreground-rgb));
+      background: linear-gradient(to bottom,
+          transparent,
+          rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+      background-image: url(/Sifi.gif);
+    }
+
+    @layer utilities {
+      .text-balance {
+        text-wrap: balance;
+      }
+    }
+    .bgcontainer {
+      z-index: -999;
+    }
+
+    body {
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      font-family: 'Anton', sans-serif;
+      justify-content: center;
+      align-items: center;
+      perspective: 1000px;
+    }
+
+    .bgcontainer {
+      position: absolute;
+      display: grid;
+      grid-template-rows: repeat(20, 5vh);
+      grid-template-columns: repeat(20, 5vw);
+      transform-style: preserve-3d;
+    }
+
+    .monitor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      transform-style: preserve-3d;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      /* Semi-transparent background */
+      backdrop-filter: blur(10px);
+      /* Glass-like blur effect */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      height: 25rem;
+      width: 40rem;
+      z-index: 99999;
+    }
+
+    .card-container {
+      position: absolute;
+      top: 0;
+      right: 100%;
+      transition: all 0.2s;
+    }
+
+    .pagesCard {
+      background: rgba(255, 255, 255, 0.1);
+      /* Semi-transparent background */
+      backdrop-filter: blur(10px);
+      /* Glass-like blur effect */
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      height: 100rem;
+      width: 20rem;
+      z-index: 99999;
+
+    }
+
+    .card-title {
+      font-family: "Poppins", sans-serif;
+      font-weight: 900;
+      font-style: italic;
+      font-size: 3rem;
+    }
+
+    .enter-project-text {
+      font-size: xx-large;
+      margin-bottom: 10px;
+    }
+
+    input {
+      background: #ffffff17;
+      height: 50px;
+      width: 300px;
+      padding-left: 5px;
+      font-size: 20px;
+      font-family: "Poppins", sans-serif;
+      color: #fff;
+      border: transparent;
+      outline: none;
+
+    }
+
+    textarea {
+      height: 100%;
+      width: 100%;
+      background: transparent;
+      color: #fff;
+      font-size: 50px;
+    }
+
+    input:focus {
+      border: 1px solid #fff;
+    }
+
+    .input_cont {
+      background: #ffffff17;
+      height: 100%;
+      width: 100%;
+      padding-left: 5px;
+      font-size: 20px;
+      font-family: "Poppins", sans-serif;
+      color: #fff;
+      border: transparent;
+      outline: none;
+
+    }
+
+    textarea::placeholder {
+      color: #fff;
+    }
+
+    .input_cont:focus {
+      border: 1px solid #fff;
+    }
+
+    .Project-Name {
+      padding: 100px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+ <div class="ui">
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.30.1/min/vs/editor/editor.main.min.css">
+
+    <style>
+      /* body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        } */
+      body {
+        color: white;
+      }
+
+      .container {
+        /* background-color: #fff; */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        color: #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      header {
+        /* background-color: #fff; */
+        color: white;
+        padding: 10px;
+        text-align: center;
+        height: 31px;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 2em;
+      }
+
+      header p {
+        margin: 5px 0 0;
+        font-size: 1.2em;
+      }
+
+      .content {
+        display: flex;
+        height: 100%;
+        border: 1px solid white;
+      }
+
+      .chat-section {
+        flex: 1;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        border-right: 2px solid #ddd;
+      }
+
+      .input_cont {
+        width: 95%;
+        height: 50px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 0.5em;
+        /* margin-bottom: 20px; */
+        transition: border-color 0.3s;
+        position: relative;
+      }
+
+      .input_cont:focus {
+        border-color: #fff;
+        outline: none;
+      }
+
+      textarea {
+        width: 90%;
+        /* height: 15%; */
+        border: none;
+        padding: 10px;
+        font-size: 1em;
+        margin-bottom: 12px;
+        resize: none;
+        outline: none;
+        scrollbar-color: transparent transparent;
+      }
+
+      textarea::-webkit-scrollbar-thumb {
+        background: transparent;
+        width: 2px;
+        color: transparent;
+      }
+
+      .buttons {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      .buttons button {
+        background-color: #fff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 1em;
+        margin: 0 10px;
+        transition: background-color 0.3s;
+      }
+
+      .buttons button:hover {
+        background-color: #45a049;
+      }
+
+      #chat_history {
+        /* flex: 1; */
+        overflow-y: scroll;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        height: 40rem;
+        scroll-behavior: smooth;
+
+      }
+
+      #chat_history::-webkit-scrollbar {
+        background: transparent;
+        width: 10px;
+      }
+
+      #chat_history:hover::-webkit-scrollbar {
+        width: 10px;
+        backdrop-filter: blur(5px);
+        background: #6464644b;
+      }
+
+      #chat_history:hover::-webkit-scrollbar-button {
+        background: #838383;
+      }
+
+      #chat_history .chat-message {
+        padding: 5px;
+        border-bottom: 2px solid #ddd;
+        overflow-y: auto;
+      }
+
+      .right-section {
+        flex: 2;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+      }
+
+      .preview-section {
+        flex: 1;
+        margin-bottom: 20px;
+      }
+
+      .editor-section {
+        flex: 1;
+      }
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        background: #fff;
+      }
+
+      i {
+        /* color: #45a049; */
+        cursor: pointer;
+      }
+
+      i:active {
+        color: #5a5a5a;
+      }
+
+      .editor-section #editor {
+        width: 100%;
+        height: 100%;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .card.show {
+        right: 720px;
+      }
+
+      .card.hide {
+        right: 4850px;
+      }
+
+      .card-content {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .files {
+        border-radius: 5px;
+        margin-left: 50px;
+        cursor: pointer;
+        padding: 10px;
+      }
+
+      .button {
+        padding: 10px 20px;
+        background-color: #fff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+      }
+
+
+
+
+      li:hover .bxs-trash {
+        color: #fff;
+      }
+
+      .f {
+        color: #fff;
+      }
+
+      .files:hover {
+        background: rgba(255, 255, 255, 0.1);
+        /* Semi-transparent background */
+        backdrop-filter: blur(10px);
+        /* Glass-like blur effect */
+      }
+
+      .rotate {
+        transform: rotate(90deg);
+      }
+
+      .h {
+        display: none;
+        color: #c0c0c0;
+      }
+
+      .bloks {
+        border-radius: 5px;
+      }
+
+      .bloks:hover {
+        border-radius: 8px;
+        background: #999898;
+      }
+
+      textarea {
+        height: 100%;
+        width: 100%;
+        background: transparent;
+        color: #fff;
+        font-size: large;
+      }
+
+      h2 {
+        margin-top: 0;
+      }
+
+      .ui {
+        display: block;
+      }
+
+      .container {
+        height: 98%;
+      }
+
+      .send {
+        position: absolute;
+        top: 28px;
+        right: 24px;
+
+      }
+
+      .save {
+        position: absolute;
+        top: 28px;
+        right: 60px;
+      }
+
+      iframe {
+        color: white;
+      }
+
+      #editor {
+        height: 100%;
+        width: 100%;
+      }
+
+      .hide {
+        display: none;
+      }
+
+      .flex {
+        display: flex;
+      }
+
+      ul {
+        overflow: hidden;
+        height: 50px;
+        /* transition: all 0.2s; */
+      }
+
+      ul i {
+        display: none;
+      }
+
+      ul:hover {
+        /* overflow: unset; */
+        height: unset;
+
+      }
+
+      ul:hover i {
+        display: unset;
+      }
+
+
+      h4 {
+        cursor: pointer;
+        margin-top: 0;
+        margin-bottom: 20px;
+        width: 50px;
+        margin-left: 84px;
+      }
+
+      i p {
+        position: absolute;
+        opacity: 0;
+        transition: all 0.5s;
+      }
+
+      i:hover p {
+        opacity: 100;
+      }
+    </style>
+    </head>
+
+    <body>
+      <div class="container">
+        <header>
+          <h1>Gemini website Builder</h1>
+          <p>Create amazing websites with the help of Gemini!</p>
+          <!-- <br>
+          <br>
+          <br> -->
+          <h3 id="title" style="margin-top: 0;">My home</h3>
+        </header>
+        <h2 style="cursor: pointer;" onclick="showCard()"><i class='bx bxs-book-content'></i>pages</h2>
+        <i class=''>Cradits</i>
+        <div class="content">
+          <div class="chat-section">
+            <div id="chat_history"></div>
+            <div class="input_cont">
+              <textarea id="question" placeholder="Describe the website you want to create..."></textarea>
+              <i class="bx bx-save bx-sm save" onclick="SaveCode()"></i>
+              <i class='bx send bx-send bx-sm' onclick="send(question.value);"></i>
+            </div>
+          </div>
+          <div class="right-section">
+            <i class='bx bx-refresh bx-sm' onclick="reloadPreviw()"
+              style="color: #fff;position: absolute;top:18px;right: 180px;">
+              <p style="font-size: small;">Reload Previw</p>
+            </i>
+            <i class='bx bx-window-open bx-sm' onclick="previewInNewtab()"
+              style="color: #fff;position: absolute;top:18px;right: 135px;">
+              <p style="font-size: small;">Previw</p>
+            </i>
+            <i class='bx bx-export bx-sm' onclick="exportProject()"
+              style="color: #fff;position: absolute;top:18px;right: 80px;">
+              <p style="font-size: small;">Export</p>
+            </i>
+            <div class="preview-section">
+              <iframe id="preview" src="{{ url_for('preview') }}" frameborder="0"></iframe>
+            </div>
+            <div class="editor-section">
+              <div id="editor"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-container" id="card-container">
+        <div class="pagesCard">
+          <div class="card-content">
+            <div class="head" style="display: flex; margin-left: 100px;">
+              <h2>pages</h2>
+              <i class='bx bx-refresh bx-sm' onclick="loadPages()" style="color: #fff;margin-top:25px;"></i>
+              <i class='bx bxs-file-plus bx-sm' onclick="CreatePage()" style="color: #fff;margin-top:25px;"></i>
+              <i class='bx bxs-trash bx-sm' onclick="DeletePage(selectedPage)" style="color: #fff;margin-top:25px;"></i>
+              <i class='bx bx-left-arrow-alt bx-sm' style="margin-left: 50px;color: #fff;" onclick="showCard()"></i>
+            </div>
+            <hr>
+            <div class="pages"></div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.30.1/min/vs/loader.min.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", initlize);
+
+    const btn = document.querySelector(".btn");
+    const ui = document.querySelector(".ui");
+    const card = document.querySelector(".card");
+    const pages = document.querySelector(".pages");
+    const pName = document.getElementById("pName");
+    const question = document.getElementById("question");
+    const preview = document.getElementById("preview");
+    const cardContainer = document.getElementById("card-container");
+    let selectedPage = null;
+    let selectedBlock = null;
+    window.editor = null;
+    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.30.1/min/vs' } });
+    require(['vs/editor/editor.main'], function () {
+      window.editor = monaco.editor.create(document.getElementById('editor'), {
+        value: '',
+        language: 'html',
+        theme: 'vs-dark',
+      });
+      // Fetch the initial content
+      fetch('/initial_content')
+        .then(response => response.json())
+        .then(data => {
+          if (data.html) {
+            window.editor.setValue(data.html);
+            document.getElementById('preview').srcdoc = data.html;
+          } else {
+            console.error('Error loading initial content:', data.error);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+
+      window.editor.onDidChangeModelContent(function () {
+        const editedHtml = window.editor.getValue();
+        document.getElementById('preview').srcdoc = editedHtml;
+      });
+    }); 8
+    function initlize() {
+      loadPages();
+    }
+
+    question.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") send(question.value);
+    });
+    function send(prompt) {
+      question.value = null;
+      if (selectedPage !== null) {
+        if (selectedBlock !== null) {
+          chat_history.innerHTML += `<strong>You: </strong>${prompt}<br><br>`;
+          question.value = null;
+
+          fetch('/generate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ question: prompt, code: window.editor.getValue() }),
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (data && data.chat_response) {
+                console.log(data);
+                chat_history.innerHTML += `<strong>Gemini: </strong>${data.chat_response}<br><br>`;
+                if (data.codeIncluded) {
+                  window.editor.setValue(data.html || "");
+                  preview.srcdoc = window.editor.getValue()
+                }
+                // preview.srcdoc = window.editor.getValue();
+                chat_history.scrollTop = chat_history.scrollHeight;
+                question.value = null;
+
+              } else {
+                alert("Some error Ocuard in server! Restart the server to fix ishu.")
+              }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        else {
+          alert("Create or select a Block first!")
+
+        }
+      }
+      else {
+        alert("Create or select a Page first!")
+      }
+    }
+    setInterval(() => {
+      if (window.editor !== null) {
+        if (preview.srcdoc !== window.editor.getValue()) {
+          preview.srcdoc = window.editor.getValue()
+        }
+      }
+    }, 500);
+    function GetFullPagePreviw() {
+      fetch('/preview', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data) {
+           window.editor.setValue(data)
+           preview.srcdoc=data
+          } else {
+            console.error('Unexpected response format:', data);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    function showCard() {
+      cardContainer.style.right = (cardContainer.style.right === "80%") ? "100%" : "80%";
+      loadPages()
+    }
+
+    function reloadPreviw() {
+      if (selectedPage !== null) {
+        preview.src += ""
+        window.editor.setValue(preview.srcdoc)
+      }
+      else {
+        alert("Select a page first!")
+      }
+    }
+    function previewInNewtab() {
+      window.open("/preview")
+    }
+    function loadPages() {
+      fetch('/pages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.pages) {
+            pages.innerHTML = data.pages.map(page => `
+                <ul class="files" onclick="selectPage(this); loadBlocks('${page}')">
+                    <i class='bx bx-plus bx-sm' onclick="CreateBlock()" style='color:white'></i>
+                    <i class='bx bxs-trash bx-sm' onclick="DeleteBlock(selectedBlock)" style='color:white'></i>
+                    <h4 onclick="GetFullPagePreviw()">${page}</h4>
+                </ul>`).join('');
+          } else {
+            console.error('Unexpected response format:', data);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    getTitle()
+    function getTitle() {
+      fetch('/projectName', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data) {
+            if (data.ProjectName==""){
+              window.location.href="/"
+            }
+            else{
+              title.innerText = data.ProjectName
+            }
+          } else {
+            console.error('Unexpected response format:', data);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    function loadPages() {
+      fetch('/pages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.pages) {
+            pages.innerHTML = data.pages.map(page => `
+                <ul class="files" onclick="selectPage(this); loadBlocks('${page}')">
+                    <i class='bx bx-plus bx-sm' onclick="CreateBlock()" style='color:white'></i>
+                    <i class='bx bxs-trash bx-sm' onclick="DeleteBlock(selectedBlock)" style='color:white'></i>
+                    <h4 onclick="GetFullPagePreviw()">${page}</h4>
+                </ul>`).join('');
+          } else {
+            console.error('Unexpected response format:', data);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function loadBlocks(page) {
+      fetch('/blocks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ page: page })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.blocks) {
+            selectedPage.innerHTML = `
+                <i class='bx bx-plus bx-sm' onclick="CreateBlock()" style='color:white'></i>
+                <i class='bx bxs-trash bx-sm' onclick="DeleteBlock(selectedBlock)" style='color:white'></i>
+                <h4 onclick="reloadPreviw()">${page}</h4>`;
+            selectedPage.innerHTML += data.blocks.map((block, i) => `
+                <li class='blocks' onclick='loadBlockContent("${page}", "${block}"); selectBlock(this)' id='block_${page}_${i}'>
+                    ${block}
+                </li><br>`).join('');
+
+          } else {
+            console.error('Unexpected response format:', data);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function loadBlockContent(pageName, blockName) {
+      fetch('/blockContent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ page: pageName, block: blockName })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data) {
+            preview.srcdoc = data.block
+            window.editor.setValue(preview.srcdoc)
+            preview.contentWindow.location.reload()
+          } else {
+            console.error('Unexpected response format:', data);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function CreatePage() {
+      const pageName = prompt("Enter the new page Name!").trim();
+      if (!pageName) return;
+
+      fetch('/CreatePage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pageName })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.page) {
+            loadPages();
+          } else {
+            console.error('Unexpected response format:', data.error);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function selectPage(page) {
+      if (selectedPage) selectedPage.style.background = "transparent";
+      selectedPage = page;
+      selectedPage.style.background = "#7e7b7b";
+    }
+
+    function selectBlock(block) {
+      if (selectedBlock) selectedBlock.style.background = "transparent";
+      selectedBlock = block;
+      selectedBlock.style.background = "";
+    }
+
+    function DeletePage(page) {
+      if (!page) {
+        alert("Please select a page to delete first!");
+        return;
+      }
+
+      fetch('/DeletePage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pageName: page.children[2].innerText })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data) {
+            loadPages();
+          } else {
+            console.error('Unexpected response format:', data);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function DeleteBlock(block) {
+      if (!block) {
+        alert("Please select a block to delete first!");
+        return;
+      }
+
+      fetch('/DeleteBlock', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ pageName: selectedPage.children[2].innerText, block: block.innerText.trim() })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data) {
+            loadPages();
+          } else {
+            console.error('Unexpected response format:', data);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function CreateBlock() {
+      if (!selectedPage) {
+        alert("Please select a page first!");
+        return;
+      }
+
+      const blockName = prompt("Enter the new Block Name!").trim();
+      if (!blockName) return;
+
+      fetch('/CreateBlock', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ page: selectedPage.children[2].innerText, blockName: blockName })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data) {
+            loadPages();
+          } else {
+            console.error('Unexpected response format:', data.error);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    function SaveCode() {
+      if (!selectedPage) {
+        alert("Please select a page first!");
+        return;
+      }
+      if (!selectedBlock) {
+        alert("Please select a Block first!");
+        return;
+      }
+
+
+      fetch('/save_edited_code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ page: selectedPage.children[2].innerText, blockName: selectedBlock.innerText.trim(), code: window.editor.getValue() })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data) {
+            loadPages();
+          } else {
+            console.error('Unexpected response format:', data.error);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    function exportProject() {
+      window.location.href = "/export"
+    }
+  </script>
+</body>
+
+</html>
