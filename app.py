@@ -14,6 +14,8 @@ block = ''
 code = ''
 # Configure the Generative AI API
 
+if not os.path.exists("./Projects"):
+    os.mkdir("./Projects")
 genai.configure(api_key="AIzaSyDu9bedhof9Bw92l4jMoTqXEfAgiMgQ5Mk")
 
 
