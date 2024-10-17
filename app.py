@@ -16,7 +16,7 @@ code = ''
 
 if not os.path.exists("./Projects"):
     os.mkdir("./Projects")
-genai.configure(api_key="AIzaSyDu9bedhof9Bw92l4jMoTqXEfAgiMgQ5Mk")
+genai.configure(api_key="AIzaSyCR-XxNPJ3BcLkx5GymmZ-a1miuEw1cJI8")
 
 
 app = Flask(__name__)
